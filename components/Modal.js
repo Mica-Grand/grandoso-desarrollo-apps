@@ -1,5 +1,5 @@
 import {
-  Button,
+  TouchableOpacity,
   Modal as NewModal,
   StyleSheet,
   Text,
@@ -8,25 +8,42 @@ import {
 
 import React from "react";
 
-const Modal = ({ modalVisible, onHandleDelete, itemSelected, setModalVisible }) => {
+const Modal = ({
+  modalVisible,
+  onHandleDelete,
+  itemSelected,
+  setModalVisible,
+  itemsList,
+
+}) => {
   return (
     <NewModal visible={modalVisible} animationType="slide" transparent={true}>
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
-          <View style={styles.modalTitle}>
-            <Text>Manage task</Text>
+          <View>
+            <Text style={styles.modalTitle}>Manage task</Text>
           </View>
-          <View style={styles.modalMessage}>
-            <Text>Are you sure you want to delete this task?</Text>
+          <View >
+            <Text style={styles.modalMessage}>Are you sure you want to delete the task "{itemsList[itemSelected]?.value}"?</Text>
           </View>
-          <View style={styles.modalButton}>
-            <Button
-              title="Confirm"
+          <View style={styles.modalButtonsContainer}>
+            <TouchableOpacity
+              style={[styles.cancelButton, styles.modalButtons]}
+              onPress={() => {
+                setModalVisible(false);
+              }}
+            >
+              <Text style={styles.buttonText}>Cancel</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.confirmButton, styles.modalButtons]}
               onPress={() => {
                 onHandleDelete(itemSelected);
                 setModalVisible(false);
               }}
-            />
+            >
+              <Text style={styles.buttonText}>Confirm</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -35,7 +52,6 @@ const Modal = ({ modalVisible, onHandleDelete, itemSelected, setModalVisible }) 
 };
 
 export default Modal;
-
 
 const styles = StyleSheet.create({
   modalContainer: {
@@ -65,7 +81,30 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  modalButton: {
-    marginTop: 10,
+  modalButtonsContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 16,
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  modalButtons: {
+    flex: 1,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 6,
+    alignItems: "center",
+    justifyContent: "center",
+    marginHorizontal: 8,
+  },
+  confirmButton: {
+    backgroundColor: "#3CB371",
+  },
+  cancelButton: {
+    backgroundColor: "#888",
   },
 });

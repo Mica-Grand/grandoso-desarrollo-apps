@@ -1,23 +1,15 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
 
 import AddItem from "./components/AddItem";
 import Modal from "./components/Modal";
 import Lista from "./components/Lista/index";
 
-
-
 export default function App() {
-
   const [itemsList, setItemsList] = useState([]);
   const [itemSelected, setItemSelected] = useState();
   const [modalVisible, setModalVisible] = useState(false);
   const [textValue, setTextValue] = useState("");
-
 
   const onHandleChangeItem = (text) => setTextValue(text);
 
@@ -31,9 +23,8 @@ export default function App() {
       { id: Math.random(), value: textValue, completed: false },
     ]);
     setTextValue("");
-    console.log(textValue)
+    const itemName=textValue;
   };
-
 
   const toggleTaskCompletion = (index) => {
     setItemsList((prevState) =>
@@ -55,19 +46,26 @@ export default function App() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>My tasks list</Text>
-      <AddItem onHandleChangeItem={onHandleChangeItem} addItem={addItem} textValue={textValue} setTextValue={setTextValue}/>
+      <AddItem
+        onHandleChangeItem={onHandleChangeItem}
+        addItem={addItem}
+        textValue={textValue}
+        setTextValue={setTextValue}
+      />
       <View style={styles.listContainer}>
         <Lista
-           itemsList={itemsList}
-           toggleTaskCompletion={toggleTaskCompletion}
-           onHandleModal={onHandleModal}
-         />
+          itemsList={itemsList}
+          toggleTaskCompletion={toggleTaskCompletion}
+          onHandleModal={onHandleModal}
+        />
       </View>
       <Modal
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
         onHandleDelete={onHandleDelete}
         itemSelected={itemSelected}
+        itemsList={itemsList}
+
       />
     </View>
   );
@@ -86,10 +84,7 @@ const styles = StyleSheet.create({
     marginBottom: 25,
   },
 
-
-  
   listContainer: {
     marginTop: 25,
   },
-
 });
